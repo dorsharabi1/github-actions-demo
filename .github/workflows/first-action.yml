@@ -12,7 +12,7 @@ jobs:
 
       - name: Print branch name
         run: |
-          echo "Branch: ${GITHUB_REF##*/}"
+          echo "Branch: ${{ github.ref }}"
   
   test-branch:
     uses: ./.github/workflows/reusable-action.yml
