@@ -1,14 +1,15 @@
-name: Test
+name: Reusable action
 
 on:
   workflow_call:
   
 jobs:
-  test:
+  print-branch-name:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Print branch
+      - name: Print branch name
         run: |
           echo "Branch: ${{ github.head_ref }}"
