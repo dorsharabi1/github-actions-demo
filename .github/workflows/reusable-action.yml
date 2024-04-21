@@ -25,10 +25,10 @@ jobs:
         id: context
         run: |
           if [ -z "${{ inputs.dockerfile-path }}" ]; then
-            echo "build_context=all"
+            echo "build_context=all" >> "$GITHUB_OUTPUT"
           else
-            echo "build_context=single"
-            echo "::set-output name=dir_name::$(basename ${{ inputs.dockerfile-path }})"
+            echo "build_context=single" >> "$GITHUB_OUTPUT"
+            echo "dir_name=$(basename ${{ inputs.dockerfile-path }})" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Build and push Docker image (single context)
