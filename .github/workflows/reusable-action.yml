@@ -1,23 +1,48 @@
-name: Reusable action
+name: ecr
 
 on:
   workflow_call:
-  
-jobs:
-  print-branch-name:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    inputs:
+      aws-region:
+        required: true
+        type: string
+      aws-role:
+        required: true
+        type: string
+      dockerfile-path:
+        required: false
+        type: string
+        description: 'Optional: Relative path to the Dockerfile and its context, e.g., ./services/service1'
 
-      - name: Extract branch name
-        id: extract_branch
-        uses: keptn/gh-action-extract-branch-name@main
-        with:
-          GITHUB_REF: ${{ github.ref }}
-          
-      - name: Print outputs
+jobs:
+  build-push-to-ecr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine build context
+        id: context
         run: |
-          echo "GIT_SHA=${{ steps.extract_branch.outputs.GIT_SHA }}"
-          echo "BRANCH_SLUG=${{ steps.extract_branch.outputs.BRANCH_SLUG }}"
-          echo "BRANCH=${{ steps.extract_branch.outputs.BRANCH }}"
+          if [ -z "${{ inputs.dockerfile-path }}" ]; then
+            echo "build_context=all"
+          else
+            echo "build_context=single"
+            echo "::set-output name=dir_name::$(basename ${{ inputs.dockerfile-path }})"
+          fi
+
+      - name: Build and push Docker image (single context)
+        if: steps.context.outputs.build_context == 'single'
+        env:
+          REPO_NAME: app-repo
+          DIR_NAME: ${{ steps.context.outputs.dir_name }}
+        run: |
+          echo "/${REPO_NAME}/${DIR_NAME}:${GITHUB_REF#refs/*/}"
+
+      - name: Build all services
+        if: steps.context.outputs.build_context == 'all'
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPO_NAME: app-repo
+        run: |
+          echo "all services"
