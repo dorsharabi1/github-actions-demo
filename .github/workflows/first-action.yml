@@ -4,23 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  print-branch-name:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Extract branch name
-        id: extract_branch
-        uses: keptn/gh-action-extract-branch-name@main
-        with:
-          GITHUB_REF: ${{ github.ref }}
-          
-      - name: Print outputs
-        run: |
-          echo "GIT_SHA=${{ steps.extract_branch.outputs.GIT_SHA }}"
-          echo "BRANCH_SLUG=${{ steps.extract_branch.outputs.BRANCH_SLUG }}"
-          echo "BRANCH=${{ steps.extract_branch.outputs.BRANCH }}"
-  
   test-branch:
     uses: ./.github/workflows/reusable-action.yml
+    with:
+      aws-region: us-west-2
+      aws-role: test
