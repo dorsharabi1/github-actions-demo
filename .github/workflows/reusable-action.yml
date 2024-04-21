@@ -12,4 +12,4 @@ jobs:
 
       - name: Print branch name
         run: |
-          echo "Branch: ${{ github.head_ref }}"
+          echo "Branch: ${GITHUB_REF##*/}"
