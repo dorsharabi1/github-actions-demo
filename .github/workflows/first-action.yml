@@ -2,10 +2,22 @@ name: First action
 
 on:
   workflow_dispatch:
+    inputs:
+      aws-region:
+        required: true
+        type: string
+      aws-role:
+        required: true
+        type: string
+      dockerfile-path:
+        required: false
+        type: string
+        description: 'Optional: Relative path to the Dockerfile and its context, e.g., ./services/service1'
 
 jobs:
   test-branch:
     uses: ./.github/workflows/reusable-action.yml
     with:
-      aws-region: us-west-2
-      aws-role: test
+      aws-region: ${{ inputs.aws-region }}
+      aws-role: ${{ inputs.aws-role }}
+      dockerfile-path: ${{ inputs.dockerfile-path }}
