@@ -14,5 +14,6 @@ jobs:
       - name: Check semver version
         id: context
         run: |
-          go install github.com/maykonlf/semver-cli/cmd/semver@latest
+          wget -O /usr/local/bin/semver https://raw.githubusercontent.com/fsaintjacques/semver-tool/master/src/semver
+          chmod +x /usr/local/bin/semver
           semver --version
