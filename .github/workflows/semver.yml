@@ -13,4 +13,6 @@ jobs:
 
       - name: Check semver version
         id: context
-        run: semver --version
+        run: |
+          npm install semver
+          semver --version
