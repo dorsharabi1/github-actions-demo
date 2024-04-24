@@ -2,6 +2,11 @@ name: Semver action
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: "New version"
+        required: true
+        type: string
 
 
 jobs:
@@ -11,9 +16,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check semver version
+      - name: install semver version
         id: context
         run: |
           wget -O /usr/local/bin/semver https://raw.githubusercontent.com/fsaintjacques/semver-tool/master/src/semver
           chmod +x /usr/local/bin/semver
           semver --version
+
+      - name: Verify version has been incremented
+        id: is-version-updated
+        run: |
+          CURRENT_VERSION=1.1.1
+          if ! semver compare ${{ inputs.version }} $CURRENT_VERSION > 0; then
+            echo "New version must be greater than current version."
+            exit 1
+          fi
