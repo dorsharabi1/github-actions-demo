@@ -1,0 +1,16 @@
+name: Semver action
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  check-semver-cli:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check semver version
+        id: context
+        run: semver --version
