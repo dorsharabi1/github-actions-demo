@@ -27,7 +27,7 @@ jobs:
         id: is-version-updated
         run: |
           CURRENT_VERSION=1.1.1
-          if [[ $(semver compare ${{ inputs.version }} ${CURRENT_VERSION}) > 0 ]]; then
+          if [[ $(semver compare ${CURRENT_VERSION} ${{ inputs.version }}) > 0 ]]; then
             echo "New version must be greater than current version."
             exit 1
           fi
