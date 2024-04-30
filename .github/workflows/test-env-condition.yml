@@ -1,0 +1,19 @@
+name: Test ENV Condition
+
+on:
+  workflow_dispatch:
+    inputs:
+      is_release_version:
+        description: "'true' if we need to create a new ReadMe version"
+        required: true
+        type: string
+env:
+  IS_RELEASE_VERSION: ${{ inputs.is_release_version || 'false' }}
+
+jobs:
+  setup-and-create-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        if: ${{ env.IS_RELEASE_VERSION == 'true' }}
+        run: echo "ok"
