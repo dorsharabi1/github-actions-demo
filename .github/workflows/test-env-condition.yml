@@ -9,7 +9,9 @@ on:
         type: string
 env:
   IS_RELEASE_VERSION: ${{ inputs.is_release_version || 'false' }}
-
+  TMP_DIR: './tmp'
+  OPENAPI_FILE: 'openapi.json'
+  
 jobs:
   setup-and-create-version:
     runs-on: ubuntu-latest
@@ -17,3 +19,9 @@ jobs:
       - name: Test
         if: ${{ env.IS_RELEASE_VERSION == 'true' }}
         run: echo "ok"
+
+      - name: Create dir and file
+        run: |
+          mkdir ${{ env.TMP_DIR }}
+          echo "bla" ${{ env.TMP_DIR }}/${{ env.OPENAPI_FILE }}
+          cat ${{ env.TMP_DIR }}/${{ env.OPENAPI_FILE }}
