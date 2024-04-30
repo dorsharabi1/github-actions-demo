@@ -23,5 +23,5 @@ jobs:
       - name: Create dir and file
         run: |
           mkdir ${{ env.TMP_DIR }}
-          echo "bla" ${{ env.TMP_DIR }}/${{ env.OPENAPI_FILE }}
+          echo "bla" > ${{ env.TMP_DIR }}/${{ env.OPENAPI_FILE }}
           cat ${{ env.TMP_DIR }}/${{ env.OPENAPI_FILE }}
