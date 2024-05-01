@@ -25,3 +25,7 @@ jobs:
           mkdir ${{ env.TMP_DIR }}
           echo "bla" > ${{ env.TMP_DIR }}/${{ env.OPENAPI_FILE }}
           cat ${{ env.TMP_DIR }}/${{ env.OPENAPI_FILE }}
+
+          echo "Test print env direct"
+          echo "dir is: ${TMP_DIR}
+          echo "file is: ${OPENAPI_FILE}"
