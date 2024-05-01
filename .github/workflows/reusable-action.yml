@@ -32,7 +32,7 @@ jobs:
           fi
 
       - name: Build and push Docker image (single context)
-        if: steps.context.outputs.build_context == 'single'
+        if: ${{ steps.context.outputs.build_context == 'single' }}
         env:
           REPO_NAME: app-repo
           DIR_NAME: ${{ steps.context.outputs.dir_name }}
@@ -40,7 +40,7 @@ jobs:
           echo "/${REPO_NAME}/${DIR_NAME}:${GITHUB_REF#refs/*/}"
 
       - name: Build all services
-        if: steps.context.outputs.build_context == 'all'
+        if: ${{ steps.context.outputs.build_context == 'all' }}
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPO_NAME: app-repo
