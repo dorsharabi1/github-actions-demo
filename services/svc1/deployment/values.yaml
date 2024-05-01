@@ -1,2 +1,3 @@
 global:
   name: svc1
+  test: true
