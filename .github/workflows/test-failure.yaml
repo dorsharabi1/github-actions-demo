@@ -29,7 +29,8 @@ jobs:
 
       - name: Set Buildx Result
         id: set_buildx_result
-        run: echo "Result: ${{ steps.simulate_buildx.outcome }}"
+        run: |
+          echo "Result: ${{ steps.simulate_buildx.outcome }}"
 
   check-buildx-installation:
     needs: simulate-buildx
