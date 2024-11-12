@@ -1,0 +1,46 @@
+name: Test Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildx_success:
+        description: "true or false"
+        required: true
+        type: string
+        default: "true"
+
+jobs:
+  simulate-buildx:
+    runs-on: ubuntu-latest
+    outputs:
+      buildx_result: ${{ steps.set_buildx_result.outputs.result }}
+    steps:
+      - name: Simulate Docker Buildx Step
+        id: simulate_buildx
+        run: |
+          if [ "${{ github.event.inputs.buildx_success }}" == "true" ]; then
+            echo "Buildx installation succeeded."
+            echo "result=success" >> $GITHUB_OUTPUT
+          else
+            echo "Buildx installation failed."
+            echo "result=failure" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Set Buildx Result
+        id: set_buildx_result
+        run: echo "Result: ${{ steps.simulate_buildx.outcome }}"
+
+  check-buildx-installation:
+    needs: simulate-buildx
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Buildx Installation Result
+        run: |
+          if [ "${{ needs.simulate-buildx.outputs.buildx_result }}" != "success" ]; then
+            echo "Simulated Buildx installation failed. Exiting with error."
+            exit 1
+          else
+            echo "Simulated Buildx installation succeeded."
+          fi
+
