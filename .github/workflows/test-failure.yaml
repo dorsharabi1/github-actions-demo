@@ -32,6 +32,9 @@ jobs:
         run: |
           echo "Result: ${{ steps.simulate_buildx.outcome }}"
 
+      - name: print something
+        run: echo "test"  
+
   check-buildx-installation:
     needs: simulate-buildx
     runs-on: ubuntu-latest
