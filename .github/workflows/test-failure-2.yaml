@@ -26,6 +26,7 @@ jobs:
             echo "result=failure" >> $GITHUB_OUTPUT
             exit 1
           fi
+        continue-on-error: true        
 
       - name: Set Buildx Result
         id: set_buildx_result
