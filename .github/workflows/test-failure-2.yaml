@@ -8,6 +8,11 @@ on:
         required: true
         type: string
         default: "true"
+      run_second_job:
+        description: "true or false"
+        required: true
+        type: string
+        default: "true"        
 
 jobs:
   simulate-buildx:
@@ -41,7 +46,7 @@ jobs:
   check-buildx-installation:
     needs: simulate-buildx
     runs-on: ubuntu-latest
-    if: always() && needs.simulate-buildx.outputs.buildx_result != ''    
+    if: always() && needs.simulate-buildx.outputs.buildx_result != '' && inputs.run_second_job == 'true'
     steps:
       - name: Check Buildx Installation Result
         run: |
