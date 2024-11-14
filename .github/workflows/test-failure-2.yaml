@@ -29,7 +29,6 @@ jobs:
         continue-on-error: true        
 
       - name: Set Buildx Result
-        id: set_buildx_result
         run: |
           echo "Result: ${{ steps.simulate_buildx.outcome }}"        
           if [ "${{ steps.simulate_buildx.outcome }}" != "success" ]; then
